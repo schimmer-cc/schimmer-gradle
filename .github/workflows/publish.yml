@@ -1,0 +1,30 @@
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '23'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Test package
+        run: ./gradlew spotlessApply
+
+      - name: Test package
+        run: ./gradlew test
+
+      - name: Publish package
+        run: ./gradlew publish
+        env:
+          MAVEN_USERNAME: ${{ secrets.NEXUS_USER }}
+          MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          SCHIMMER_VERSION: ${{ github.ref_name }}
