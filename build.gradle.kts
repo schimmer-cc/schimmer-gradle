@@ -6,7 +6,6 @@ plugins {
 }
 
 group = "cc.schimmer"
-version = "1.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
@@ -49,7 +48,7 @@ spotless {
 publishing {
     repositories {
         maven {
-            url = uri("https://nexus.fiereu.de/repository/maven-public/")
+            url = uri("https://nexus.fiereu.de/repository/maven-releases/")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
@@ -58,7 +57,6 @@ publishing {
     }
     publications {
         create<MavenPublication>("nexus") {
-            groupId = "org.gradle.sample"
             artifactId = "schimmer-gradle"
             version = System.getenv("SCHIMMER_VERSION")
 
